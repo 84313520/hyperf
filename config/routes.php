@@ -15,3 +15,5 @@ use Hyperf\HttpServer\Router\Router;
 Router::addRoute(['GET', 'POST', 'HEAD'], '/', 'App\Controller\IndexController@index');
 
 Router::get('/healthz', 'App\Controller\IndexController@healthz');
+
+Router::get('/test', 'App\Controller\TestController@index');

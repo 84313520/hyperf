@@ -16,7 +16,13 @@ ARG timezone
 
 ENV TIMEZONE=${timezone:-"Asia/Shanghai"} \
     APP_ENV=prod \
-    SCAN_CACHEABLE=(true)
+    SCAN_CACHEABLE=(true) \
+    COMPOSER_VERSION=1.9.3
+
+RUN mkdir /root/.ssh/
+#RUN ssh-keyscan bitbucket.org >> /root/.ssh/known_hosts
+COPY ./id_rsa /root/.ssh/
+COPY ./id_rsa.pub /root/.ssh/
 
 # update
 RUN set -ex \
@@ -52,7 +58,8 @@ WORKDIR /opt/www
 # RUN composer install --no-dev --no-scripts
 
 COPY . /opt/www
-RUN composer install --no-dev -o && php bin/hyperf.php
+RUN composer install --no-dev -o
+    #&& php bin/hyperf.php
 
 EXPOSE 9501
 
